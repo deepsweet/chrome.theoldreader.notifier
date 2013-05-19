@@ -16,6 +16,7 @@
             "38": "icon_38x38.png"
         }
     },
+    "minimum_chrome_version": "22",
     "permissions": [
         "http://theoldreader.com/feeds/counts.json",
         "alarms",
