@@ -41,7 +41,7 @@
                         // collect only first 5 titles
                         if (titles <= 5) {
                             title = (title ? title + '\n' : '') + feed.title + ': ' + feed.unread_count;
-                        } else if (titles ==== 5) {
+                        } else if (titles === 6) {
                             title += '\n…';
                         }
 
