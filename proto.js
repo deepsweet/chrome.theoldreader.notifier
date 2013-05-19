@@ -121,7 +121,7 @@
         };
 
         req.onerror = function() {
-            self.throwError(navigator.onLine ? 'connection error' : 'no internet connection');
+            self.throwError('connection error');
         };
 
         req.open('GET', self.params.reqURL, true);
@@ -155,6 +155,10 @@
      * @return {NotifierButton}
      */
     NotifierButton.prototype.throwError = function(title, clearTimeout) {
+
+        if (navigator.onLine === false) {
+            title = 'no internet connection';
+        }
 
         this.updateBadge({
             color: 'gray',
