@@ -9,11 +9,9 @@
      */
     function NotifierButton(params) {
 
-        var self = this;
+        this.params = params;
 
-        self.params = params;
-
-        self.params.badgeColors = {
+        this.params.badgeColors = {
             gray: [200, 200, 200, 255],
             red: [255, 0, 0, 255],
             blue: [0, 0, 255, 255],
