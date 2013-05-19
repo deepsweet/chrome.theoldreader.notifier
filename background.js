@@ -69,7 +69,7 @@
 
         req.timeout = reqTimeout;
 
-        req.ontimeout = function () {
+        req.ontimeout = function() {
             setError('connection timeout');
         };
 

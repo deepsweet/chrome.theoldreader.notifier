@@ -1,6 +1,6 @@
 ## chrome.theoldreader.notifier
 
-Displays the number of unread RSS items of The Old Reader.
+Displays the number of unread RSS items of [The Old Reader](https://theoldreader.com/).
 
 [How to install](http://developer.chrome.com/extensions/getstarted.html#unpacked).
 
