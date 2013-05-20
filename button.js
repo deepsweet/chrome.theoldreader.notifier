@@ -19,7 +19,10 @@
         .onupdate(function(data) {
 
             // login error
-            if (!data.feeds) return false;
+            if (!data.feeds) {
+                this.throwError('login error');
+                return false;
+            }
 
             var unread = 0,
                 title = '',

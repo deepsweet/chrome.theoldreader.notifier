@@ -104,9 +104,7 @@
 
         req.onload = function() {
             if (this.status === 200) {
-                if (self.updateCallback.call(self, JSON.parse(this.responseText)) === false) {
-                    self.throwError('login error');
-                } else {
+                if (self.updateCallback.call(self, JSON.parse(this.responseText)) !== false) {
                     self.next();
                 }
             } else {
@@ -196,6 +194,8 @@
             title: (data.title + '' || '')
         });
 
+        return self;
+
     };
 
     /**
@@ -215,7 +215,7 @@
             when: Date.now() + (time || self.params.reqInterval)
         });
 
-        return this;
+        return self;
 
     };
 
