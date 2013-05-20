@@ -9,14 +9,21 @@
      */
     function NotifierButton(params) {
 
-        this.params = params;
-
-        this.params.badgeColors = {
+        // 10 sec timeout
+        params.reqTimeout = params.reqTimeout || 10 * 1000;
+        // 5 mins interval
+        params.reqInterval = params.reqInterval || 5 * 60 * 1000;
+        // 1 min interval after error
+        params.reqErrorInterval = params.reqErrorInterval || 1 * 60 * 1000;
+        // badge colors
+        params.badgeColors = {
             gray: [200, 200, 200, 255],
             red: [255, 0, 0, 255],
             blue: [0, 0, 255, 255],
             green: [0, 255, 0, 255]
         };
+
+        this.params = params;
 
         return this;
 
@@ -35,7 +42,7 @@
         var self = this;
 
         // button click
-        chrome.browserAction.onClicked.addListener(function() {
+        chrome.browserAction.onClicked.addListener(self._onclick || function() {
             chrome.tabs.create({
                 url: self.params.openURL
             });
@@ -54,7 +61,7 @@
             });
 
             // update on tab(s) close and renew timeout
-            chrome.tabs.onRemoved.addListener(function(id) {
+            chrome.tabs.onRemoved.addListener(self._ontabclose || function(id) {
                 if (~self.tabs.indexOf(id)) {
                     self.request();
                     self.tabs.splice(self.tabs.indexOf(id), 1);
@@ -104,7 +111,7 @@
 
         req.onload = function() {
             if (this.status === 200) {
-                if (self.updateCallback.call(self, JSON.parse(this.responseText)) !== false) {
+                if (self._onupdate.call(self, JSON.parse(this.responseText)) !== false) {
                     self.next();
                 }
             } else {
@@ -130,7 +137,7 @@
     };
 
     /**
-     * On-update handler.
+     * On update handler.
      *
      * @param {Function} callback callback function
      * @this {NotifierButton}
@@ -138,7 +145,37 @@
      */
     NotifierButton.prototype.onupdate = function(callback) {
 
-        this.updateCallback = callback;
+        this._onupdate = callback;
+
+        return this;
+
+    };
+
+    /**
+     * On click handler.
+     *
+     * @param {Function} callback callback function
+     * @this {NotifierButton}
+     * @return {NotifierButton}
+     */
+    NotifierButton.prototype.onclick = function(callback) {
+
+        this._onclick = callback;
+
+        return this;
+
+    };
+
+    /**
+     * On tab close handler.
+     *
+     * @param {Function} callback callback function
+     * @this {NotifierButton}
+     * @return {NotifierButton}
+     */
+    NotifierButton.prototype.ontabclose = function(callback) {
+
+        this._ontabclose = callback;
 
         return this;
 

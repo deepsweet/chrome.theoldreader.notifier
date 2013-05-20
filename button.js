@@ -3,12 +3,6 @@
     var oldreaderButton = new NotifierButton({
         // JSON
         reqURL: 'http://theoldreader.com/feeds/counts.json',
-        // 10 sec timeout
-        reqTimeout: 10 * 1000,
-        // 5 mins interval
-        reqInterval: 5 * 60 * 1000,
-        // 1 min interval after error
-        reqErrorInterval: 1 * 60 * 1000,
         // URL to open on button click
         openURL: 'http://theoldreader.com/posts/all',
         // URL regexp to match tabs
