@@ -31,8 +31,7 @@
 
     /**
      * Go!
-     * Binds to button click, tab(s) close,
-     * online, offline and update events.
+     * Binds to button click, online, offline and update events.
      *
      * @this {NotifierButton}
      * @return {NotifierButton}
@@ -47,28 +46,6 @@
                 url: self.params.openURL
             });
         });
-
-        // update on tab(s) close
-        if (self.params.tabsURL) {
-
-            self.tabs = [];
-
-            // save tabs IDs
-            chrome.tabs.onCreated.addListener(function(tab) {
-                if (self.params.tabsURL.test(tab.url)) {
-                    self.tabs.push(tab.id);
-                }
-            });
-
-            // update on tab(s) close and renew timeout
-            chrome.tabs.onRemoved.addListener(self._ontabclose || function(id) {
-                if (~self.tabs.indexOf(id)) {
-                    self.request();
-                    self.tabs.splice(self.tabs.indexOf(id), 1);
-                }
-            });
-
-        }
 
         // bind to 'update' interval
         chrome.alarms.onAlarm.addListener(function(alarm) {
@@ -111,9 +88,7 @@
 
         req.onload = function() {
             if (this.status === 200) {
-                if (self._onupdate.call(self, JSON.parse(this.responseText)) !== false) {
-                    self.next();
-                }
+                self._onupdate.call(self, JSON.parse(this.responseText));
             } else {
                 self.throwError('error retrieving data');
             }
@@ -161,21 +136,6 @@
     NotifierButton.prototype.onclick = function(callback) {
 
         this._onclick = callback;
-
-        return this;
-
-    };
-
-    /**
-     * On tab close handler.
-     *
-     * @param {Function} callback callback function
-     * @this {NotifierButton}
-     * @return {NotifierButton}
-     */
-    NotifierButton.prototype.ontabclose = function(callback) {
-
-        this._ontabclose = callback;
 
         return this;
 
