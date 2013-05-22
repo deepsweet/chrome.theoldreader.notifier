@@ -40,7 +40,6 @@
 
     });
 
-
     /**
      * Update button with unread count and title.
      *

@@ -10,10 +10,10 @@
         window.App._update = window.App.update;
 
         window.App.update = function() {
-            var answer = window.App._update.apply(window.App._update, arguments);
+            var response = window.App._update.apply(window.App._update, arguments);
 
-            if (answer !== false) {
-                answer.then(function(data) {
+            if (response !== false) {
+                response.then(function(data) {
                     window.postMessage({
                         type: 'injection',
                         feeds: JSON.stringify(data)
@@ -21,7 +21,7 @@
                 });
             }
 
-            return answer;
+            return response;
         };
     };
 
