@@ -25,11 +25,6 @@
         };
     };
 
-    // then stringify, append and run it in page context
-    var script = doc.createElement('script');
-    script.innerHTML = '(' + injection.toString() + ')()';
-    doc.head.appendChild(script);
-
     /**
      * Get our message from page's window and send it further
      * to the extension via chrome.runtime.sendMessage().
@@ -44,5 +39,10 @@
             });
         }
     };
+
+    // stringify, append and run injection in page context
+    var script = doc.createElement('script');
+    script.innerHTML = '(' + injection.toString() + ')()';
+    doc.head.appendChild(script);
 
 })(document, window);
